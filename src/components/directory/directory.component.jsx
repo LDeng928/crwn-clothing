@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { selectDirectorySections } from '../../redux/directory/directory.selector';
 import { createStructuredSelector } from 'reselect';
 
-// Class component. Need to access state
+
 const Directory = ({ sections }) => (      
   <div className="directory-menu">
       { sections.map(({ title, imageUrl, id, size, linkUrl }) => (

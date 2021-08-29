@@ -4,7 +4,7 @@ import 'firebase/firestore';
 import 'firebase/auth'
 
 const config = {
-    apiKey: "<Your API Key>",
+    apiKey: "AIzaSyBhVlsS1Rh2bRkRsD32RnaVi3vklrFKg20",
     authDomain: "crwn-db-5f44b.firebaseapp.com",
     projectId: "crwn-db-5f44b",
     storageBucket: "crwn-db-5f44b.appspot.com",
