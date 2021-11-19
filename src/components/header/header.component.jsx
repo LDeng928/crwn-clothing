@@ -1,6 +1,6 @@
 //import { current } from 'immer';
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 import {auth} from '../../firebase/firebase.utils';
@@ -14,36 +14,38 @@ import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
-import './header.style.scss';
+// import './header.style.scss';
+
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink } from './header.styles';
 
 // functional component
 const Header = ({currentUser, hidden}) => (  
-    <div className="header">
-        <Link className='logo-container' to='/'>
+    <HeaderContainer>
+        <LogoContainer to='/'>
             <Logo className='logo'></Logo>
-        </Link>
-        <div className="options">
-            <Link className='option' to='/shop'>
+        </LogoContainer>
+        <OptionsContainer>
+            <OptionLink to='/shop'>
                 SHOP
-            </Link>
-            <Link className='option' to='/contact'>
+            </OptionLink>
+            <OptionLink to='/contact'>
                 CONTACT
-            </Link>
-            <Link>
-                {
-                    currentUser ? 
-                    <div className='option' onClick={() => auth.signOut()}>SIGN OUT</div>
-                    :
-                    <Link className='option' to='/signin'>SIGN IN</Link>
-                }
-            </Link>
+            </OptionLink>
+         
+            {
+                currentUser ? 
+                <OptionLink as='div' onClick={() => auth.signOut()}>SIGN OUT</OptionLink>
+                :
+                <OptionLink className='option' to='/signin'>SIGN IN</OptionLink>
+            }
+    
             <CartIcon />
-        </div>
+        </OptionsContainer>
         {
             hidden ? null : <CartDropdown />  
         }
             
-    </div>
+    </HeaderContainer>
     );
 
 // Get state from redux
