@@ -20,16 +20,13 @@ export const selectCollections = createSelector(
 // convert an object into an array to make 'selectCollections' work
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
-    collections => Object.keys(collections).map(key => collections[key])
-)
+    (collections) =>
+      collections ? Object.keys(collections).map((key) => collections[key]) : []
+  );
 
 
 // Find collection.id matching the url parameter of our collection id map
-export const selectCollection = memoize((collectionUrlParam) => 
-        createSelector(
-            [selectCollections],
-            // Data Normalization. Change SHOP_DATA to an object, with category as the key. 
-            collections => collections[collectionUrlParam]
-            // collections => collections.find(collection => collection.id === COLLECTION_ID_MAP[collectionUrlParam])            
-        )
-    );
+export const selectCollection = (collectionUrlParam) =>
+  createSelector([selectCollections], (collections) =>
+    collections ? collections[collectionUrlParam] : null
+  );

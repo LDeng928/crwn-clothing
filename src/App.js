@@ -20,6 +20,7 @@ import CheckoutPage from './pages/checkout/checkout.component';
 import Header from './components/header/header.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
+
 class App extends React.Component {
   constructor() {
     super();
@@ -37,23 +38,23 @@ class App extends React.Component {
     const { setCurrentUser } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      // Store the user in our app.
-      if(userAuth) {
+      if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
-        // Redux setCurrentUser
         userRef.onSnapshot(snapShot => {
           setCurrentUser({
             id: snapShot.id,
             ...snapShot.data()
           });
         });
-        
-      } else {
-        setCurrentUser( userAuth ); 
-      }                 
-    })
+      }
+
+      setCurrentUser(userAuth);
+      // The following code only runs once to send the data to firestore
+      // addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})))
+    });
   }
+
 
   // Close subscription now to prevent memory leaks
   componentWillUnmount() {

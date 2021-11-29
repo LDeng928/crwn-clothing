@@ -45,6 +45,45 @@ export const createUserProfileDocument = async(userAuth, additionalData) => {
 
 firebase.initializeApp(config);
 
+
+
+// Move shop data to firestore
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+
+  // Batch the calls to firestore to make the code predicable
+  const batch = firestore.batch();
+  objectsToAdd.forEach(obj => {
+    const newDocRef = collectionRef.doc() // collectionRef comes back with a new doc id
+
+    // send the shop data to firestore using batch
+    batch.set(newDocRef, obj);
+  });
+
+  return await batch.commit(); // comes back with a promise
+};
+
+// Convert the collection data from firestore
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformCollection = collections.docs.map(doc => {
+    const {title, items} = doc.data();
+
+    // Return a new object with the routing
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    }
+  });
+
+  // Use the JS reduce method to return the final object data
+  return transformCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {});
+}
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
