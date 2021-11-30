@@ -1,10 +1,19 @@
 import React from 'react';
 import './collection-item.style.scss';
-import CustomButton from '../custom-button/custom-button.component';
 
 // import redux library
 import { connect } from 'react-redux';
 import { addItems } from '../../redux/cart/cart.actions';
+
+// Import styled components
+import {
+    CollectionItemContainer,
+    CollectionFooterContainer,
+    AddButton,
+    NameContainer,
+    BackgroundImage,
+    PriceContainer
+} from './collection-item.styles'
 
 
 // functional component
@@ -13,20 +22,14 @@ const CollectionItem = ({ item, addItems }) => {
 // Destruct the props from item
 const {  name, price, imageUrl } = item;
 return (
-        <div className="collection-item">
-            <div className='image'
-                style={{
-                    backgroundImage: `url(${imageUrl})`
-                }}
-            >
-            </div>
-
-            <div className="collection-footer">
-                <span className="name">{ name }</span>
-                <span className="price">{ price }</span>
-            </div>
-            {<CustomButton inverted onClick={() => addItems(item)}>Add to cart</CustomButton>}
-        </div>
+    <CollectionItemContainer>
+        <BackgroundImage className='image' imageUrl={imageUrl} />
+        <CollectionFooterContainer>
+            <NameContainer>{name}</NameContainer>
+            <PriceContainer>{price}</PriceContainer>
+        </CollectionFooterContainer>
+        <AddButton onClick={ () => addItems(item)} inverted>Add to cart</AddButton>
+    </CollectionItemContainer>
     )
 }
 
