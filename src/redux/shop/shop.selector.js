@@ -34,4 +34,9 @@ export const selectCollection = (collectionUrlParam) =>
 export const selectIsCollectionsFetching = createSelector(
   [selectShop],
   shop => shop.isFetching
+);
+
+export const selectIsCollectionsLoaded = createSelector(
+  [selectShop],
+  shop => !!shop.collections // This !! will evaluate shop.collections to true boolean value
 )
