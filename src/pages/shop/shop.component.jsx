@@ -32,14 +32,19 @@ class ShopPage extends React.Component  {
 
     const collectionRef = firestore.collection('collections'); // fetch the data from firestore with the collection name as 'collections'
 
-    this.unsubscribeFromSnapshot = collectionRef.onSnapshot( async snapshot => {
-      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+    // Interact with Firestore using RESTAPI - will return a very nested collections
+    // const url ='https://firestore.googleapis.com/v1/projects/crwn-db-5f44b/databases/(default)/documents/collections';
 
+    // fetch(url).then(response => response.json()).then(collections => console.log(collections));
+
+    // Refactor to get() and then() instead of  the Observable Pattern
+    collectionRef.get().then(snapshot => {
+      // Calls the Firestore utility function to convert the documentSnapshot into useful data
+      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+      // Then use Redux to pass the data
       updateCollections(collectionsMap);
       this.setState({ loading: false });
     });
-
-    
   }
 
   render() {
