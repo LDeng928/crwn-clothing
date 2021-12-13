@@ -1,0 +1,3 @@
+Test user for development only
+User email: test@gamil.com
+Password: 123456
